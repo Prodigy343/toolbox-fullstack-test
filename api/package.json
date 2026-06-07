@@ -1,0 +1,24 @@
+{
+  "name": "fullstack-challenge-api",
+  "version": "1.0.0",
+  "description": "REST API that consumes the external secret-files API and exposes formatted data at GET /files/data.",
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=14 <15"
+  },
+  "scripts": {
+    "start": "node src/server.js",
+    "test": "mocha"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "node-fetch": "^2.7.0"
+  },
+  "devDependencies": {
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "nock": "^13.5.4",
+    "supertest": "^6.3.4"
+  }
+}
