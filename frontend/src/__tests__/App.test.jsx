@@ -53,7 +53,7 @@ describe('App', () => {
     fetchFilesData.mockResolvedValue(sample)
     render(<App />)
 
-    const select = await screen.findByRole('combobox', { name: 'Filter by file' })
+    const select = await screen.findByRole('combobox', { name: 'File' })
     await screen.findByRole('option', { name: 'test3.csv' })
 
     fetchFilesData.mockResolvedValue([])
@@ -73,13 +73,13 @@ describe('App', () => {
   it('shows a per-file empty message when the picked file has no data', async () => {
     fetchFilesData.mockResolvedValueOnce(sample)
     render(<App />)
-    const select = await screen.findByRole('combobox', { name: 'Filter by file' })
+    const select = await screen.findByRole('combobox', { name: 'File' })
     await screen.findByRole('option', { name: 'test3.csv' })
 
     fetchFilesData.mockResolvedValueOnce([])
     fireEvent.change(select, { target: { value: 'test3.csv' } })
 
-    expect(await screen.findByText('No data available for test3.csv.')).toBeInTheDocument()
+    expect(await screen.findByText('No data available for test3.csv')).toBeInTheDocument()
     expect(screen.queryByRole('table')).not.toBeInTheDocument()
   })
 })

@@ -14,7 +14,7 @@ describe('FileFilter', () => {
     const onChange = jest.fn()
     render(<FileFilter files={['a.csv', 'b.csv']} value='' onChange={onChange} />)
 
-    fireEvent.change(screen.getByRole('combobox', { name: 'Filter by file' }), {
+    fireEvent.change(screen.getByRole('combobox', { name: 'File' }), {
       target: { value: 'b.csv' }
     })
 
