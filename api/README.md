@@ -15,6 +15,7 @@ REST API built with **Node.js + Express**. It consumes the provided external
 npm install
 npm start          # starts the API on http://localhost:3000
 npm test           # runs the Mocha + Chai test suite
+npm run lint       # checks code style with StandardJS
 ```
 
 ## Endpoints
@@ -74,6 +75,14 @@ test/
 - `node-fetch@2` (HTTP client, Node 14 compatible), `cors`, plus `supertest` /
   `nock` for testing.
 
-## Not yet wired (optional bonus)
+## Linting (StandardJS)
 
-- StandardJS linting — add `standard` and a `lint` script if desired.
+Code style is enforced with [StandardJS](https://standardjs.com/):
+
+```bash
+npm run lint        # check for style issues
+npm run lint:fix    # auto-fix what it can
+```
+
+Mocha's test globals (`describe`, `it`, …) are whitelisted via the
+`standard.env` field in `package.json`.

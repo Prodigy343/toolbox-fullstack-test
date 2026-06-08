@@ -3,12 +3,10 @@
 const externalApi = require('./externalApi')
 const { parseCsv } = require('./csvParser')
 
-async function getFilesData(fileNameFilter) {
-  let files = await externalApi.listFiles()
-
-  if (fileNameFilter) {
-    files = files.filter((name) => name === fileNameFilter)
-  }
+async function getFilesData (fileNameFilter) {
+  const files = fileNameFilter
+    ? [fileNameFilter]
+    : await externalApi.listFiles()
 
   const entries = await Promise.all(files.map(async (file) => {
     try {

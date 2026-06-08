@@ -53,8 +53,8 @@ describe('GET /files/data', () => {
     expect(res.body[0].file).to.equal('file1.csv')
   })
 
-  it('supports the optional ?fileName= filter', async () => {
-    nock(ORIGIN).get(`${PREFIX}/files`).reply(200, { files: ['file1.csv', 'file2.csv'] })
+  it('fetches a single file directly, without listing all files', async () => {
+    // No `/files` interceptor: if the service listed files, nock would throw.
     nock(ORIGIN).get(`${PREFIX}/file/file2.csv`).reply(200,
       'file,text,number,hex\nfile2.csv,Hello,2,70ad29aacf0b690b0467fe2b2767f765')
 

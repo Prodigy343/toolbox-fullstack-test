@@ -8,7 +8,9 @@
   },
   "scripts": {
     "start": "node src/server.js",
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "standard",
+    "lint:fix": "standard --fix"
   },
   "dependencies": {
     "cors": "^2.8.5",
@@ -19,6 +21,12 @@
     "chai": "^4.3.10",
     "mocha": "^10.2.0",
     "nock": "^13.5.4",
+    "standard": "^17.1.0",
     "supertest": "^6.3.4"
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
   }
 }

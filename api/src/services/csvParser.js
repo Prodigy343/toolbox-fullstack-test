@@ -2,7 +2,7 @@
 
 const HEX_RE = /^[0-9a-fA-F]{32}$/
 
-function parseCsv(rawText) {
+function parseCsv (rawText) {
   if (!rawText) return []
 
   const rows = rawText.split(/\r?\n/)

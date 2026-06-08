@@ -53,6 +53,6 @@ installing).
 - [x] `?fileName=` filter on `GET /files/data` (API)
 - [x] Docker / Docker Compose
 - [x] Unit tests with Jest (frontend)
-- [ ] StandardJS (API)
+- [x] StandardJS (API)
 - [ ] Redux (frontend)
 - [ ] `fileName` filter wired into the UI (frontend)

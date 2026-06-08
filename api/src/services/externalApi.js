@@ -7,7 +7,7 @@ const authHeaders = {
   authorization: `Bearer ${config.externalApi.apiKey}`
 }
 
-async function listFiles() {
+async function listFiles () {
   const res = await fetch(`${config.externalApi.baseUrl}/files`, { headers: authHeaders })
   if (!res.ok) {
     throw new Error(`Failed to list files (status ${res.status})`)
@@ -16,7 +16,7 @@ async function listFiles() {
   return Array.isArray(body.files) ? body.files : []
 }
 
-async function downloadFile(fileName) {
+async function downloadFile (fileName) {
   const res = await fetch(`${config.externalApi.baseUrl}/file/${fileName}`, { headers: authHeaders })
   if (!res.ok) {
     throw new Error(`Failed to download "${fileName}" (status ${res.status})`)
