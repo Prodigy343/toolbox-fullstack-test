@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
 import Alert from 'react-bootstrap/Alert'
-import { fetchFilesData } from './api/filesApi'
+import { fetchFilesData, fetchFilesList } from './api/filesApi'
 import FilesTable from './components/FilesTable'
+import FileFilter from './components/FileFilter'
 
-function App() {
+function App () {
+  const [fileNames, setFileNames] = useState([])
+  const [selected, setSelected] = useState('')
   const [files, setFiles] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -13,7 +16,22 @@ function App() {
   useEffect(() => {
     let active = true
 
-    fetchFilesData()
+    fetchFilesList()
+      .then((names) => {
+        if (active) setFileNames(names)
+      })
+      .catch(() => {})
+
+    return () => {
+      active = false
+    }
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    setLoading(true)
+
+    fetchFilesData(selected || undefined)
       .then((data) => {
         if (active) {
           setFiles(data)
@@ -30,11 +48,14 @@ function App() {
     return () => {
       active = false
     }
-  }, [])
+  }, [selected])
 
   return (
     <Container className='py-4'>
       <h1 className='mb-4'>React Test App</h1>
+      <div className='mb-3' style={{ maxWidth: 320 }}>
+        <FileFilter files={fileNames} value={selected} onChange={setSelected} />
+      </div>
       {loading && <Spinner animation='border' role='status' />}
       {error && <Alert variant='danger'>{error}</Alert>}
       {!loading && !error && <FilesTable files={files} />}

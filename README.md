@@ -55,4 +55,4 @@ installing).
 - [x] Unit tests with Jest (frontend)
 - [x] StandardJS (API)
 - [ ] Redux (frontend)
-- [ ] `fileName` filter wired into the UI (frontend)
+- [x] `fileName` filter wired into the UI (frontend)

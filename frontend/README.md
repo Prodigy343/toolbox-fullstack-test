@@ -2,7 +2,8 @@
 
 React client built with **React + React Bootstrap**, bundled with **Webpack**.
 It consumes the API's `GET /files/data` endpoint and renders the data in a
-table, following the wireframe (columns: File Name, Text, Number, Hex).
+table (columns: File Name, Text, Number, Hex), with a dropdown to filter by
+file name (backed by `GET /files/list`).
 
 ## Requirements
 
@@ -26,10 +27,11 @@ npm run test:coverage  # ...with a coverage report
 public/index.html          # HTML template
 src/
   index.jsx                 # entry point (mounts <App/>, imports Bootstrap CSS)
-  App.jsx                   # functional component + Hook Effects (data fetching)
-  api/filesApi.js           # fetch wrapper for the backend
+  App.jsx                   # functional component + Hook Effects (data + filter)
+  api/filesApi.js           # fetch wrappers (/files/data, /files/list)
   components/FilesTable.jsx # React Bootstrap table
-  __tests__/App.test.jsx    # Jest + React Testing Library smoke test
+  components/FileFilter.jsx # file-name dropdown filter
+  __tests__/                # Jest + React Testing Library suites
 webpack.config.js          # webpack + dev-server (+ API proxy) config
 babel.config.json          # @babel/preset-env + preset-react (JSX)
 jest.config.js             # jsdom environment + setup
@@ -45,6 +47,3 @@ jest.config.js             # jsdom environment + setup
 ## Not yet wired (optional bonus)
 
 - Redux for state management.
-- A `fileName` filter UI backed by `GET /files/data?fileName=` / `GET /files/list`.
-
-  > The Jest setup above already covers the "unit tests with Jest" bonus.

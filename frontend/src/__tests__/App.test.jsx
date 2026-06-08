@@ -1,6 +1,6 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import App from '../App'
-import { fetchFilesData } from '../api/filesApi'
+import { fetchFilesData, fetchFilesList } from '../api/filesApi'
 
 jest.mock('../api/filesApi')
 
@@ -12,10 +12,15 @@ const sample = [
 ]
 
 describe('App', () => {
+  beforeEach(() => {
+    fetchFilesList.mockResolvedValue(['test2.csv', 'test3.csv'])
+  })
+
   afterEach(() => jest.resetAllMocks())
 
   it('always renders the page title', () => {
     fetchFilesData.mockReturnValue(new Promise(() => {}))
+    fetchFilesList.mockReturnValue(new Promise(() => {}))
     render(<App />)
 
     expect(screen.getByText('React Test App')).toBeInTheDocument()
@@ -23,6 +28,7 @@ describe('App', () => {
 
   it('shows a spinner while loading', () => {
     fetchFilesData.mockReturnValue(new Promise(() => {}))
+    fetchFilesList.mockReturnValue(new Promise(() => {}))
     render(<App />)
 
     expect(screen.getByRole('status')).toBeInTheDocument()
@@ -41,5 +47,18 @@ describe('App', () => {
     render(<App />)
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Boom')
+  })
+
+  it('populates the filter from the list and refetches on change', async () => {
+    fetchFilesData.mockResolvedValue(sample)
+    render(<App />)
+
+    const select = await screen.findByRole('combobox', { name: 'Filter by file' })
+    await screen.findByRole('option', { name: 'test3.csv' })
+
+    fetchFilesData.mockResolvedValue([])
+    fireEvent.change(select, { target: { value: 'test3.csv' } })
+
+    await waitFor(() => expect(fetchFilesData).toHaveBeenCalledWith('test3.csv'))
   })
 })

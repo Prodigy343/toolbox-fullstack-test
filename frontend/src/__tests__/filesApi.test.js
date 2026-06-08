@@ -1,4 +1,4 @@
-import { fetchFilesData } from '../api/filesApi'
+import { fetchFilesData, fetchFilesList } from '../api/filesApi'
 
 describe('fetchFilesData', () => {
   afterEach(() => {
@@ -32,5 +32,27 @@ describe('fetchFilesData', () => {
     global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 })
 
     await expect(fetchFilesData()).rejects.toThrow('Request failed with status 500')
+  })
+})
+
+describe('fetchFilesList', () => {
+  afterEach(() => {
+    delete global.fetch
+  })
+
+  it('requests /files/list and returns the files array', async () => {
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: async () => ({ files: ['a.csv', 'b.csv'] })
+    })
+
+    await expect(fetchFilesList()).resolves.toEqual(['a.csv', 'b.csv'])
+    expect(global.fetch).toHaveBeenCalledWith('/files/list')
+  })
+
+  it('throws when the response is not ok', async () => {
+    global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 500 })
+
+    await expect(fetchFilesList()).rejects.toThrow('Request failed with status 500')
   })
 })
