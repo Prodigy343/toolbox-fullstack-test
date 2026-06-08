@@ -16,7 +16,8 @@ table, following the wireframe (columns: File Name, Text, Number, Hex).
 npm install
 npm start          # webpack-dev-server on http://localhost:8080
 npm run build      # production build into dist/
-npm test           # Jest unit tests (optional bonus)
+npm test               # Jest unit tests (optional bonus)
+npm run test:coverage  # ...with a coverage report
 ```
 
 ## Project layout
