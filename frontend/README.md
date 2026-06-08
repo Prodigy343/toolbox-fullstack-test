@@ -24,11 +24,11 @@ npm test           # Jest unit tests (optional bonus)
 ```
 public/index.html          # HTML template
 src/
-  index.js                 # entry point (mounts <App/>, imports Bootstrap CSS)
-  App.js                   # functional component + Hook Effects (data fetching)
-  api/filesApi.js          # fetch wrapper for the backend
-  components/FilesTable.js # React Bootstrap table
-  __tests__/App.test.js    # Jest + React Testing Library smoke test
+  index.jsx                 # entry point (mounts <App/>, imports Bootstrap CSS)
+  App.jsx                   # functional component + Hook Effects (data fetching)
+  api/filesApi.js           # fetch wrapper for the backend
+  components/FilesTable.jsx # React Bootstrap table
+  __tests__/App.test.jsx    # Jest + React Testing Library smoke test
 webpack.config.js          # webpack + dev-server (+ API proxy) config
 babel.config.json          # @babel/preset-env + preset-react (JSX)
 jest.config.js             # jsdom environment + setup
