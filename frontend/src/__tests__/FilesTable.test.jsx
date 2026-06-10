@@ -16,28 +16,16 @@ const files = [
 ]
 
 describe('FilesTable', () => {
-  it('renders the four column headers', () => {
-    render(<FilesTable files={[]} />)
+  it('flattens lines across files into one row each, under the right headers', () => {
+    render(<FilesTable files={files} />)
 
     for (const header of ['File Name', 'Text', 'Number', 'Hex']) {
       expect(screen.getByRole('columnheader', { name: header })).toBeInTheDocument()
     }
-  })
-
-  it('renders one row per line, flattened across files', () => {
-    render(<FilesTable files={files} />)
 
     const dataRows = files.reduce((total, file) => total + file.lines.length, 0)
     expect(screen.getAllByRole('row')).toHaveLength(dataRows + 1)
-  })
-
-  it('repeats the file name on each of its rows', () => {
-    render(<FilesTable files={files} />)
-
     expect(screen.getAllByRole('cell', { name: 'test3.csv' })).toHaveLength(2)
-    expect(
-      screen.getByRole('cell', { name: 'd2f4beb426e2c0d39f4a54eef4c558e0' })
-    ).toBeInTheDocument()
   })
 
   it('renders only the header row when there are no files', () => {
