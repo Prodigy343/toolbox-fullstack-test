@@ -26,11 +26,12 @@ npm run test:coverage  # ...with a coverage report
 ```
 public/index.html          # HTML template
 src/
-  index.jsx                 # entry point (mounts <App/>, imports Bootstrap CSS)
-  App.jsx                   # functional component + Hook Effects (data + filter)
+  index.jsx                 # entry point (Provider + App, imports Bootstrap CSS)
+  App.jsx                   # functional component + Hook Effects (reads Redux state)
   api/filesApi.js           # fetch wrappers (/files/data, /files/list)
   components/FilesTable.jsx # React Bootstrap table
   components/FileFilter.jsx # file-name dropdown filter
+  store/                    # Redux Toolkit slice + store
   __tests__/                # Jest + React Testing Library suites
 webpack.config.js          # webpack + dev-server (+ API proxy) config
 babel.config.json          # @babel/preset-env + preset-react (JSX)
@@ -42,8 +43,5 @@ jest.config.js             # jsdom environment + setup
 - JavaScript (ES6+) with functional components and Hook Effects.
 - **No TypeScript, Dart or Elm.** Babel is used only to compile JSX/ESM for the
   Webpack build (it is not in the frontend's forbidden list).
-- `react`, `react-bootstrap`, `webpack` as required by the challenge.
-
-## Not yet wired (optional bonus)
-
-- Redux for state management.
+- `react`, `react-bootstrap`, `webpack` as required; `@reduxjs/toolkit` +
+  `react-redux` for state management (optional bonus).

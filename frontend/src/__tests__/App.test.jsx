@@ -1,5 +1,8 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { Provider } from 'react-redux'
+import { configureStore } from '@reduxjs/toolkit'
 import App from '../App'
+import filesReducer from '../store/filesSlice'
 import { fetchFilesData, fetchFilesList } from '../api/filesApi'
 
 jest.mock('../api/filesApi')
@@ -11,6 +14,15 @@ const sample = [
   }
 ]
 
+const renderApp = () => {
+  const store = configureStore({ reducer: { files: filesReducer } })
+  return render(
+    <Provider store={store}>
+      <App />
+    </Provider>
+  )
+}
+
 describe('App', () => {
   beforeEach(() => {
     fetchFilesList.mockResolvedValue(['test2.csv', 'test3.csv'])
@@ -20,7 +32,7 @@ describe('App', () => {
 
   it('renders the title and the table once data loads', async () => {
     fetchFilesData.mockResolvedValue(sample)
-    render(<App />)
+    renderApp()
 
     expect(screen.getByText('React Test App')).toBeInTheDocument()
     expect(await screen.findByRole('cell', { name: 'test2.csv' })).toBeInTheDocument()
@@ -28,14 +40,14 @@ describe('App', () => {
 
   it('shows an error alert when the fetch fails', async () => {
     fetchFilesData.mockRejectedValue(new Error('Boom'))
-    render(<App />)
+    renderApp()
 
     expect(await screen.findByRole('alert')).toHaveTextContent('Boom')
   })
 
   it('refetches and shows an empty message when a picked file has no data', async () => {
     fetchFilesData.mockResolvedValueOnce(sample)
-    render(<App />)
+    renderApp()
     const select = await screen.findByRole('combobox', { name: 'File' })
     await screen.findByRole('option', { name: 'test3.csv' })
 

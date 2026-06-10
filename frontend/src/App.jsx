@@ -1,54 +1,47 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
 import Container from 'react-bootstrap/Container'
 import Spinner from 'react-bootstrap/Spinner'
 import Alert from 'react-bootstrap/Alert'
 import { fetchFilesData, fetchFilesList } from './api/filesApi'
 import FilesTable from './components/FilesTable'
 import FileFilter from './components/FileFilter'
+import { setSelected, setFileNames, loadStart, loadSuccess, loadFailure } from './store/filesSlice'
 
 function App() {
-  const [fileNames, setFileNames] = useState([])
-  const [selected, setSelected] = useState('')
-  const [files, setFiles] = useState([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const dispatch = useDispatch()
+  const { items, fileNames, selected, loading, error } = useSelector((state) => state.files)
 
   useEffect(() => {
     let active = true
 
     fetchFilesList()
       .then((names) => {
-        if (active) setFileNames(names)
+        if (active) dispatch(setFileNames(names))
       })
-      .catch(() => { })
+      .catch(() => {})
 
     return () => {
       active = false
     }
-  }, [])
+  }, [dispatch])
 
   useEffect(() => {
     let active = true
-    setLoading(true)
+    dispatch(loadStart())
 
     fetchFilesData(selected || undefined)
       .then((data) => {
-        if (active) {
-          setFiles(data)
-          setError(null)
-        }
+        if (active) dispatch(loadSuccess(data))
       })
       .catch((err) => {
-        if (active) setError(err.message)
-      })
-      .finally(() => {
-        if (active) setLoading(false)
+        if (active) dispatch(loadFailure(err.message))
       })
 
     return () => {
       active = false
     }
-  }, [selected])
+  }, [dispatch, selected])
 
   return (
     <>
@@ -57,13 +50,13 @@ function App() {
       </header>
       <Container className='pb-4'>
         <div className='mb-3' style={{ maxWidth: 320 }}>
-          <FileFilter files={fileNames} value={selected} onChange={setSelected} />
+          <FileFilter files={fileNames} value={selected} onChange={(value) => dispatch(setSelected(value))} />
         </div>
         {loading && <Spinner animation='border' role='status' />}
         {error && <Alert variant='danger'>{error}</Alert>}
         {!loading && !error &&
-          (files.length > 0 ? (
-            <FilesTable files={files} />
+          (items.length > 0 ? (
+            <FilesTable files={items} />
           ) : (
             <Alert variant='danger'>
               {selected
