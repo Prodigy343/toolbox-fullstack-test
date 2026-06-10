@@ -40,19 +40,3 @@ cd api && npm test        # Mocha + Chai (external API mocked)
 cd frontend && npm test   # Jest (optional bonus)
 ```
 
-## Notes on Node versions
-
-The challenge targets Node **14** (API) and Node **16** (frontend). Each project
-has an `.nvmrc` and an `engines` field. For a faithful `package-lock.json`, run
-`npm install` under the target version (e.g. `nvm use` in each folder before
-installing).
-
-## Optional bonus checklist
-
-- [x] `GET /files/list` endpoint (API)
-- [x] `?fileName=` filter on `GET /files/data` (API)
-- [x] Docker / Docker Compose
-- [x] Unit tests with Jest (frontend)
-- [x] StandardJS (API)
-- [ ] Redux (frontend)
-- [x] `fileName` filter wired into the UI (frontend)
